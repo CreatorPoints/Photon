@@ -57,3 +57,37 @@ h1, h2, h3 {
     overflow: hidden;
 }
 
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 40px;
+    background: black;
+    border-bottom: 1px solid;
+}
+
+.topbar h1 {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.brand {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-left: auto;
+}
