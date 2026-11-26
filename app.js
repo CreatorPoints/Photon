@@ -2,6 +2,7 @@ document.getElementById("store").addEventListener("click", () => {
     window.open("https://photon.dino.icu/store", "_self");
 });
 
+const heroTrack = document.querySelector('.hero-track');
 const hero = document.querySelector('.hero');
 const heroImg = document.querySelector('.hero img');
 const heroText = document.querySelector('.hero-text');
@@ -9,19 +10,19 @@ let ticking = false;
 
 function updateHeroScroll() {
     const scrollY = window.scrollY;
-    const heroH = hero.offsetHeight;
-    const progress = Math.min(Math.max(scrollY / heroH, 0), 1);
+    const scrollDistance = heroTrack.offsetHeight - hero.offsetHeight;
+    const progress = Math.min(Math.max(scrollY / scrollDistance, 0), 1);
 
-    const scale = 1.05 + progress * 0.3;
-    const blur = progress * 14;
+    const scale = 1.05 + progress * 0.45;
+    const blur = progress * 16;
     const imgOpa = 1 - progress * 0.65;
 
     heroImg.style.transform = `scale(${scale})`;
     heroImg.style.filter = `blur(${blur}px)`;
     heroImg.style.opacity = imgOpa;
 
-    heroText.style.transform = `translateY(${-progress * 60}px)`;
-    heroText.style.opacity = 1 - progress * 1.3;
+    heroText.style.transform = `translateY(${-progress * 80}px)`;
+    heroText.style.opacity = 1 - progress * 1.4;
 
     ticking = false;
 }

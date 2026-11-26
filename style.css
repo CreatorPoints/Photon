@@ -18,6 +18,11 @@ h1, h2, h3 {
     font-family: 'Space Grotesk', sans-serif;
 }
 
+.hero-track {
+    height: 200vh;
+    position: relative;
+}
+
 .hero {
     min-height: calc(100vh - 70px);
     display: flex;
