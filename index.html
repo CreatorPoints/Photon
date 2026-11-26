@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Photon</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +13,7 @@
         <header class="topbar">
             <h1><a href="https://photon.dino.icu" class="brand">Photon Studios</a></h1>
             <nav class="navbar">
-                <a href="#abtus">About Us</a>
+                <a href="#aboutus">About Us</a>
                 <a href="#games">Games</a>
                 <a href="#contact">Contact</a>
             </nav>
@@ -24,17 +25,26 @@
                 <p>Making awesome experiences! Not just games, even animations!</p>
             </div>
         </div>
-        <div class="aboutus">
+        <div class="aboutus" id="aboutus">
             <div class="abtus-text">
                 <h1>About us</h1>
                 <p>Photon Studios is a Game Development Studio founded by @CreatorPoints, on 23rd November 2026. Right now we have no dedicated infrastructure, nor a dedicated PC. Hence, we run on donations made by you.</p>
             </div>
-            <img src="assets/images" alt="notYetADD">
+            <img src="assets/images" alt="Photon Studios">
         </div>
-        <div class="games">
+        <div class="games" id="games">
             <h1>Our games</h1>
             <p>Explore the unique catalog of games that we have crafted!</p>
             <button id="store">Visit the store</button>
+        </div>
+        <div class="contact" id="contact">
+            <h1>Contact Us</h1>
+            <p>Want us? We are available by the methods below</p>
+            <div class="contact-way">
+                <ul>
+                    <li>Email - photonstudios.org@gmail.co,</li>
+                </ul>
+            </div>
         </div>
         <script src="app.js"></script>
     </body>

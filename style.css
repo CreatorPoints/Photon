@@ -1,7 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background: black;
     color: white;
     font-family: 'Inter', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 h1, h2, h3 {
@@ -9,15 +19,23 @@ h1, h2, h3 {
 }
 
 .hero {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    position: relative;
+    position: sticky;
     overflow: hidden;
-    padding-bottom: 50px;
+    padding: 50px 50px 150px;
+    top: 70px;
+    z-index: 0;
 }
 
 .hero-text {
     position: relative;
     z-index: 1;
+    will-change: transform, opacity;
 }
 
 .hero-text h1 {
@@ -39,22 +57,56 @@ h1, h2, h3 {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    transform: scale(1.05);
+    transform-origin: center center;
+    will-change: transform, filter, opacity;
     mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 .aboutus {
+    position: relative;
+    z-index: 2;
+    min-height: calc(100vh - 70px);
+    background: black;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px 80px;
 }
 
 .abtus-text {
+    flex: 1;
     border-radius: 15px;
     border-style: solid;
     border-width: 2px;
     border-color: white;
-    padding: 15px;
+    padding: 25px;
     overflow: hidden;
+}
+
+.aboutus img {
+    flex: 1;
+    max-width: 45%;
+    border-radius: 15px;
+    opacity: 0;
+    transform: translateX(120px);
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
+    will-change: transform, opacity;
+}
+
+.aboutus.show img {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.games, .contact {
+    position: relative;
+    z-index: 2;
+    background: black;
+    padding: 80px;
 }
 
 .topbar {
@@ -90,4 +142,24 @@ h1, h2, h3 {
     align-items: center;
     gap: 28px;
     margin-left: auto;
+}
+
+.filter {
+    background: #171717;
+    border-radius: 15px;
+    border-color: white;
+    border-width: 2px;
+    border-style: solid;
+    padding: 10px;
+}
+
+.searchbox {
+    background: grey;
+    border-radius: 15px;
+    border-style: solid;
+}
+
+.filter button {
+    border-radius: 5px;
+    border-color: white;
 }
