@@ -75,6 +75,7 @@ a {
 
 .aboutus {
     position: relative;
+    scroll-margin-top: 70px;
     z-index: 2;
     min-height: calc(100vh - 70px);
     background: black;
@@ -84,6 +85,7 @@ a {
     justify-content: space-between;
     gap: 40px;
     padding: 60px 80px;
+    will-change: transform, filter, opacity;
 }
 
 .abtus-text {
@@ -118,6 +120,7 @@ a {
     z-index: 2;
     background: black;
     padding: 80px;
+    will-change: transform, filter, opacity;
 }
 
 .topbar {
