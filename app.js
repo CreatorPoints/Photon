@@ -64,3 +64,38 @@ window.addEventListener('load', () => {
         history.replaceState(null, '', window.location.pathname + window.location.search);
     }
 });
+
+const orbitalNav = document.querySelector('.orbital-nav');
+const orbitNodes = document.querySelectorAll('.orbit-node');
+const trackedSections = ['#aboutus', '#games', '#animations', '#contact']
+    .map(id => document.querySelector(id))
+    .filter(Boolean);
+function toggleOrbitalVisibility() {
+    if (window.scrollY > heroTrack.offsetHeight - hero.offsetHeight * 0.6) {
+        orbitalNav.classList.add('visible');
+    } else {
+        orbitalNav.classList.remove('visible');
+    }
+}
+window.addEventListener('scroll', toggleOrbitalVisibility, { passive: true});
+toggleOrbitalVisibility();
+
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const activeId = `#${entry.target.id}`;
+            orbitNodes.forEach(node => {
+                node.classList.toggle('active', node.dataset.target === activeId);
+            });
+        }
+    });
+}, { threshold: 0.45 });
+trackedSections.forEach(sec => sectionObserver.observe(sec));
+orbitNodes.forEach(node => {
+    node.addEventListener('click', () => {
+        const targetSection = document.querySelector(node.dataset.target);
+        if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
