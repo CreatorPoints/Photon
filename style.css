@@ -73,21 +73,6 @@ a {
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
-.aboutus {
-    position: relative;
-    scroll-margin-top: 70px;
-    z-index: 2;
-    min-height: calc(100vh - 70px);
-    background: black;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    padding: 60px 80px;
-    will-change: transform, filter, opacity;
-}
-
 .abtus-text {
     flex: 1;
     border-radius: 15px;
@@ -113,14 +98,44 @@ a {
     transform: translateX(0);
 }
 
-.games, .contact, .animation {
-    min-height: calc(100vh - 70px);
-    scroll-margin-top: 70px;
+.sections-track {
+    height: 400vh;
     position: relative;
     z-index: 2;
     background: black;
-    padding: 80px;
+}
+
+.sections-stage {
+    position: sticky;
+    top: 70px;
+    height: calc(100vh - 70px);
+    overflow: hidden;
+    background: black;
+}
+
+.stage-panel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
     will-change: transform, filter, opacity;
+}
+
+.stage-panel.active-panel {
+    pointer-events: auto;
+}
+
+.aboutus {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px 80px;
+}
+
+.games, .contact, .animation {
+    padding: 80px;
 }
 
 .topbar {
