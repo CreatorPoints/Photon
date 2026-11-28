@@ -15,6 +15,7 @@ const orbitNodes = document.querySelectorAll('.orbit-node');
 const aboutSection = document.querySelector('.aboutus');
 const SHIFT_X = 60;
 let ticking = false;
+let isSnapping = false;
 
 function updateSectionFocus() {
     const topOff = 70;
@@ -36,7 +37,6 @@ function updateSectionFocus() {
             const translateY = diff * SHIFT_X;
             const blur = abs * 12;
             const opacity = 1 - abs;
-
             panel.style.transform = `translateY(${translateY}px)`;
             panel.style.filter = `blur(${blur}px)`;
             panel.style.opacity = opacity;
@@ -64,18 +64,14 @@ function updateScrollAnimations() {
     const scrollY = window.scrollY;
     const scrollDist = heroTrack.offsetHeight - hero.offsetHeight;
     const progress = Math.min(Math.max(scrollY / scrollDist, 0), 1);
-
     const scale = 1.05 + progress * 0.45;
     const blur = progress * 16;
     const imgOpa = 1 - progress * 0.65;
-
     heroImg.style.transform = `scale(${scale})`;
     heroImg.style.filter = `blur(${blur}px)`;
     heroImg.style.opacity = imgOpa;
-
     heroText.style.transform = `translateY(${-progress * 80}px)`;
     heroText.style.opacity = 1 - progress * 1.4;
-
     updateSectionFocus();
     toggleOrbitalVisibility();
     ticking = false;
@@ -88,17 +84,82 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-function scrollToStageSection(targetId) {
-    const idx = stagePanels.findIndex(p => `#${p.id}` === targetId);
-    if (idx === -1) return;
-
+function getSnapPositions() {
     const topOff = 70;
     const stageH = window.innerHeight - topOff;
     const totalScrollable = sectionsTrack.offsetHeight - stageH;
     const trackPageTop = sectionsTrack.getBoundingClientRect().top + window.scrollY;
-    const targetScrollY = (trackPageTop - topOff) + (idx / (stagePanels.length - 1)) * totalScrollable;
+    const positions = [0];
+    for (let i = 0; i < stagePanels.length; i++) {
+        positions.push((trackPageTop - topOff) + (i / (stagePanels.length - 1)) * totalScrollable);
+    }
+    return positions;
+}
 
-    window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+function snapToStep(stepIndex) {
+    const positions = getSnapPositions();
+    const clamped = Math.max(0, Math.min(positions.length - 1, stepIndex));
+    isSnapping = true;
+    window.scrollTo({ top: positions[clamped], behavior: 'smooth' });
+    setTimeout(() => {
+        isSnapping = false;
+    }, 650);
+}
+
+function getCurrentNearestStep() {
+    const positions = getSnapPositions();
+    const currentY = window.scrollY;
+    let nearestIdx = 0;
+    let minDiff = Infinity;
+    positions.forEach((pos, idx) => {
+        const diff = Math.abs(currentY - pos);
+        if (diff < minDiff) {
+            minDiff = diff;
+            nearestIdx = idx;
+        }
+    });
+    return nearestIdx;
+}
+
+window.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) < 10) return;
+    e.preventDefault();
+    if (isSnapping) return;
+    const currentStep = getCurrentNearestStep();
+    const direction = e.deltaY > 0 ? 1 : -1;
+    snapToStep(currentStep + direction);
+}, { passive: false});
+
+let touchStartY = 0;
+window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+window.addEventListener('touchmove', (e) => {
+    const deltaY = touchStartY - e.touches[0].clientY;
+    if (Math.abs(deltaY) < 25) return;
+    e.preventDefault();
+    if (isSnapping) return;
+    const currentStep = getCurrentNearestStep();
+    const direction = deltaY > 0 ? 1 : -1;
+    snapToStep(currentStep + direction);
+}, { passive: false });
+
+window.addEventListener('keydown', (e) => {
+    if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+        e.preventDefault();
+        if (!isSnapping) snapToStep(getCurrentNearestStep() + 1);
+    } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+        e.preventDefault();
+        if (!isSnapping) snapToStep(getCurrentNearestStep() - 1);
+    }
+});
+
+function scrollToStageSection(targetId) {
+    const idx = stagePanels.findIndex(p => `#${p.id}` === targetId);
+    if (idx !== -1) {
+        snapToStep(idx + 1);
+    }
 }
 
 document.querySelectorAll('.navbar a[href^="#"]').forEach(link => {
@@ -109,6 +170,11 @@ document.querySelectorAll('.navbar a[href^="#"]').forEach(link => {
             scrollToStageSection(targetId);
         }
     });
+});
+
+document.querySelector('.brand').addEventListener('click', (e) => {
+    e.preventDefault();
+    snapToStep(0);
 });
 
 orbitNodes.forEach(node => {
