@@ -7,7 +7,7 @@ const hero = document.querySelector('.hero');
 const heroImg = document.querySelector('.hero img');
 const heroText = document.querySelector('.hero-text');
 const sectionsTrack = document.querySelector('.sections-track');
-const stagePanels = ['#aboutus', '#games', '#animations', '#contact']
+const stagePanels = ['#aboutus', '#games', '#animations', '#news', '#contact']
     .map(id => document.querySelector(id))
     .filter(Boolean);
 const orbitalNav = document.querySelector('.orbital-nav');
